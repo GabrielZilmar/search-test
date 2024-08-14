@@ -12,7 +12,7 @@ export class DuckDuckGo implements SearchEngine<DuckDuckGoSearchResponse> {
   }
 
   private async fetch(searchTerm: string): Promise<DuckDuckGoSearchResponse> {
-    const response = await fetch(`${this.apiUrl}?q=${searchTerm}?format=json`);
+    const response = await fetch(`${this.apiUrl}?q=${searchTerm}&format=json`);
     return response.json();
   }
 
