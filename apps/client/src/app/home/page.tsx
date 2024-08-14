@@ -1,4 +1,4 @@
-import SearchForm from "~/app/components/forms/search";
+import SearchForm from "~/components/forms/search";
 
 export default function Home() {
   return (
