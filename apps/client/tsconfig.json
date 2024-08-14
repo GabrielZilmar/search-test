@@ -5,7 +5,12 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "~/*": ["./src/*"],
+      "@cialdnb/ui": ["../../packages/ui/src"],
+      "@cialdnb/ui/utils": ["../../packages/ui/src/utils"]
+    }
   },
   "include": [
     "next-env.d.ts",
