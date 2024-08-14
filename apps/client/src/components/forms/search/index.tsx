@@ -1,18 +1,23 @@
 "use client";
 
 import { Button, Input } from "@cialdnb/ui";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { ALL_ROUTES } from "~/constants/routes";
 
 export default function SearchForm() {
-  const [search, setSearch] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const router = useRouter();
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    setSearchTerm(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.info({ search });
+    const params = new URLSearchParams();
+    params.set("q", searchTerm);
+    router.push(`${ALL_ROUTES.search}?${params.toString()}`);
   };
 
   return (
