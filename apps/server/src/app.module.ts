@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SearchModule } from 'src/modules/searches/search.module';
+import { SearchModule } from '~/modules/searches/search.module';
 
 @Module({
   imports: [
