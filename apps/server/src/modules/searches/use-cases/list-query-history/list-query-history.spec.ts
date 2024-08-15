@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import path from 'path';
+import fs from 'fs';
 import { DuckDuckGoSearchResponseMock } from 'test/mock/services/search-engines/duck-duck-go/search-result.mock';
 import { HistoryResponseDTO } from '~/modules/searches/dto/query-history.dto';
 import { SearchDTO } from '~/modules/searches/dto/search.dto';
@@ -7,6 +9,23 @@ import { HashDB } from '~/services/db/hash';
 
 describe('ListQueryHistory Use Case', () => {
   let module: TestingModule;
+
+  beforeAll(() => {
+    const filePath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      '/services/',
+      'db',
+      'hash',
+      'data.json',
+    );
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  });
 
   beforeEach(async () => {
     module = await getModuleTest();

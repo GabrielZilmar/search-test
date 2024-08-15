@@ -1,5 +1,7 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import path from 'path';
+import fs from 'fs';
 import { DuckDuckGoSearchResponseMock } from 'test/mock/services/search-engines/duck-duck-go/search-result.mock';
 import { SearchDTO } from '~/modules/searches/dto/search.dto';
 import { Search } from '~/modules/searches/use-cases/search';
@@ -15,6 +17,23 @@ import { DuckDuckGo } from '~/services/search-engines/duck-duck-go';
 describe('Search Use Case', () => {
   let module: TestingModule;
   const searchTerm = 'Elden ring';
+
+  beforeAll(() => {
+    const filePath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      '/services/',
+      'db',
+      'hash',
+      'data.json',
+    );
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  });
 
   beforeEach(async () => {
     module = await getModuleTest();
