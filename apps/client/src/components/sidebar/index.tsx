@@ -2,7 +2,6 @@
 
 import { useSidebarStore } from "~/store/sidebar";
 import { Maximize2, Minimize2 } from "lucide-react";
-import { cn } from "@cialdnb/ui";
 import SearchHistory from "~/components/search-history";
 
 const Sidebar: React.FC = () => {
