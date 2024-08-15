@@ -1,6 +1,7 @@
 # Cialdnb App
 
 Welcome to the Cialdnb monorepo. This application is designed to use the DuckDuckGo API and save your search history.
+This Version is using redux
 
 ## Technologies Used 💻
 
