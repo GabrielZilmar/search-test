@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DuckDuckGoSearchResponseMock } from 'test/mock/services/search-engines/duck-duck-go/search-result.mock';
 import { SearchDTO } from '~/modules/searches/dto/search.dto';
 import { Search } from '~/modules/searches/use-cases/search';
+import { HashDB } from '~/services/db/hash';
 import { DuckDuckGo } from '~/services/search-engines/duck-duck-go';
 
 (fetch as jest.Mock) = jest.fn(() =>
@@ -26,7 +27,7 @@ describe('Search Use Case', () => {
   const getModuleTest = async () =>
     Test.createTestingModule({
       imports: [],
-      providers: [Search, DuckDuckGo],
+      providers: [Search, DuckDuckGo, HashDB],
     }).compile();
 
   it('Should return search result', async () => {
