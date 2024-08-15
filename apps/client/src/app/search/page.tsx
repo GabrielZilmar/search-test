@@ -5,34 +5,20 @@ import { Suspense, useEffect, useMemo } from "react";
 import DisplayRelatedTopics from "~/components/display-related-topics";
 import DisplaySearchResult from "~/components/display-search-result";
 import SearchHighlight from "~/components/search-highlight";
-import { useSearch } from "~/hooks";
+import { useSearchMutation } from "~/data/search";
+import { useAppSelector } from "~/hooks";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const searchTerm = useMemo(() => searchParams.get("q") || "", [searchParams]);
-  const { data, isError, isPending, mutate: searchMutate } = useSearch();
+  const data = useAppSelector((state) => state.searchSlice);
+  const [searchMutate] = useSearchMutation();
 
   useEffect(() => {
     if (searchTerm) {
       searchMutate({ searchTerm });
     }
   }, [searchTerm, searchMutate]);
-
-  if (isError) {
-    return (
-      <div className="flex justify-center items-center h-screen text-destructive">
-        <p>Error</p>
-      </div>
-    );
-  }
-
-  if (isPending || !data) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col justify-evenly h-screen p-4">
