@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import DisplayRelatedTopics from "~/components/display-related-topics";
 import DisplaySearchResult from "~/components/display-search-result";
+import SearchHighlight from "~/components/search-highlight";
 import { useSearch } from "~/hooks";
 
 export default function SearchPage() {
@@ -35,7 +36,8 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col justify-evenly h-screen p-4">
-      <div className="space-y-2">
+      <SearchHighlight />
+      <div className="space-y-2 mt-4">
         <h1 className="font-bold text-lg">{searchTerm}</h1>
         <p className="text-sm sm:text-xs">{data.abstract}</p>
       </div>
