@@ -14,6 +14,7 @@ import { DuckDuckGo } from '~/services/search-engines/duck-duck-go';
 
 describe('Search Use Case', () => {
   let module: TestingModule;
+  const searchTerm = 'Elden ring';
 
   beforeEach(async () => {
     module = await getModuleTest();
@@ -31,9 +32,11 @@ describe('Search Use Case', () => {
 
   it('Should return search result', async () => {
     const useCase = module.get<Search>(Search);
-    const response = await useCase.execute({ searchTerm: 'Elden ring' });
 
-    expect(response).toEqual(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
+    const response = await useCase.execute({ searchTerm });
+    expect(response).toEqual(
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: searchTerm }),
+    );
   });
 
   it('Should throw error', async () => {
@@ -41,7 +44,7 @@ describe('Search Use Case', () => {
     const errorMock = new Error('Error');
     jest.spyOn(useCase, 'execute').mockRejectedValue(errorMock);
 
-    await expect(useCase.execute({ searchTerm: 'Elden ring' })).rejects.toThrow(
+    await expect(useCase.execute({ searchTerm: searchTerm })).rejects.toThrow(
       new InternalServerErrorException(errorMock.message),
     );
   });
@@ -50,15 +53,19 @@ describe('Search Use Case', () => {
     const useCase = module.get<Search>(Search);
     const hashDB = module.get<HashDB>(HashDB);
     const hashDbSpy = jest.spyOn(hashDB, 'find');
-    hashDbSpy.mockReturnValue(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
 
-    const searchTerm = 'Elden ring';
+    hashDbSpy.mockReturnValue(
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: searchTerm }),
+    );
+
     const response = await useCase.execute({ searchTerm });
 
-    expect(response).toEqual(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
+    expect(response).toEqual(
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: searchTerm }),
+    );
     expect(hashDbSpy).toHaveBeenCalledWith(searchTerm);
     expect(hashDbSpy).toHaveReturnedWith(
-      SearchDTO.toDTO(DuckDuckGoSearchResponseMock),
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: searchTerm }),
     );
   });
 
@@ -69,13 +76,14 @@ describe('Search Use Case', () => {
     const hashDbSpy = jest.spyOn(hashDB, 'insert');
     hashDbSpy.mockReturnValue(true);
 
-    const searchTerm = 'Elden ring';
     const response = await useCase.execute({ searchTerm });
 
-    expect(response).toEqual(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
+    expect(response).toEqual(
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: searchTerm }),
+    );
     expect(hashDbSpy).toHaveBeenCalledWith(
       searchTerm,
-      SearchDTO.toDTO(DuckDuckGoSearchResponseMock),
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: searchTerm }),
     );
     expect(hashDbSpy).toHaveReturnedWith(true);
   });

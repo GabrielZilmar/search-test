@@ -25,7 +25,9 @@ describe('ListQueryHistory Use Case', () => {
   it('Should return search history', async () => {
     const useCase = module.get<ListQueryHistory>(ListQueryHistory);
 
-    const mockHistory = [SearchDTO.toDTO(DuckDuckGoSearchResponseMock)];
+    const mockHistory = [
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: 'Elden ring' }),
+    ];
     const hashDB = module.get<HashDB>(HashDB);
     const listResult = {
       items: mockHistory,
