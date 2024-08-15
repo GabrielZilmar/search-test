@@ -22,7 +22,7 @@ export class Search implements UseCase<SearchParams, SearchDTO> {
 
     try {
       const searchResult = await this.duckDuckGo.search(searchTerm);
-      const resultDTO = SearchDTO.toDTO(searchResult);
+      const resultDTO = SearchDTO.toDTO({ ...searchResult, name: searchTerm });
       this.hashDB.insert(searchTerm, resultDTO);
       return resultDTO;
     } catch (e) {

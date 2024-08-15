@@ -15,6 +15,8 @@ export default function SearchForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!searchTerm) return;
+
     const params = new URLSearchParams();
     params.set("q", searchTerm);
     router.push(`${ALL_ROUTES.search}?${params.toString()}`);

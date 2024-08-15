@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import {
   search,
@@ -8,12 +8,19 @@ import {
 } from "~/data/search";
 
 export const useSearch = () => {
+  const queryClient = useQueryClient();
+
   const { mutate, isPending, isSuccess, isError, error, data } = useMutation<
     SearchResult,
     SearchError,
     SearchPayload
   >({
     mutationFn: (payload) => search(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["search-history"],
+      });
+    },
     onError: (error) => {
       enqueueSnackbar(error.message, { variant: "error" });
     },

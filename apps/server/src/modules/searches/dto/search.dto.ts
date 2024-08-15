@@ -3,6 +3,8 @@ import { IsArray, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { DuckDuckGoSearchResponse } from '~/services/search-engines/duck-duck-go/types';
 import { IsNullable } from '~/shared/class-validators/is-nullable';
 
+type SearchDTOParams = DuckDuckGoSearchResponse & { name: string };
+
 class SearchResults {
   @IsUrl()
   url: string;
@@ -58,9 +60,9 @@ export class SearchDTO {
     }, [] as SearchResults[]);
   }
 
-  public static toDTO(data: DuckDuckGoSearchResponse) {
+  public static toDTO(data: SearchDTOParams) {
     const payload = {
-      name: data.Heading,
+      name: data.name,
       abstract: data.Abstract,
       results: this.toSearchResults(data.Results),
       relatedTopics: this.toSearchResults(data.RelatedTopics),

@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import path from 'path';
+import fs from 'fs';
 import { DuckDuckGoSearchResponseMock } from 'test/mock/services/search-engines/duck-duck-go/search-result.mock';
 import { HistoryResponseDTO } from '~/modules/searches/dto/query-history.dto';
 import { SearchDTO } from '~/modules/searches/dto/search.dto';
@@ -7,6 +9,23 @@ import { HashDB } from '~/services/db/hash';
 
 describe('ListQueryHistory Use Case', () => {
   let module: TestingModule;
+
+  beforeAll(() => {
+    const filePath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      '/services/',
+      'db',
+      'hash',
+      'data.json',
+    );
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  });
 
   beforeEach(async () => {
     module = await getModuleTest();
@@ -25,7 +44,9 @@ describe('ListQueryHistory Use Case', () => {
   it('Should return search history', async () => {
     const useCase = module.get<ListQueryHistory>(ListQueryHistory);
 
-    const mockHistory = [SearchDTO.toDTO(DuckDuckGoSearchResponseMock)];
+    const mockHistory = [
+      SearchDTO.toDTO({ ...DuckDuckGoSearchResponseMock, name: 'Elden ring' }),
+    ];
     const hashDB = module.get<HashDB>(HashDB);
     const listResult = {
       items: mockHistory,
