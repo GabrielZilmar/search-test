@@ -27,8 +27,12 @@ export default function SearchPage() {
         <h1 className="font-bold text-lg">{searchTerm}</h1>
         <p className="text-sm sm:text-xs">{result.abstract}</p>
       </div>
-      <DisplayRelatedTopics relatedTopics={result.relatedTopics} />
-      <DisplaySearchResult searchResult={result.results} />
+      <div className="mt-4">
+        <DisplaySearchResult searchResult={result.results} />
+      </div>
+      <div className="mt-4">
+        <DisplayRelatedTopics relatedTopics={result.relatedTopics} />
+      </div>
     </main>
   );
 }
