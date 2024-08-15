@@ -20,7 +20,6 @@ describe('Search Use Case', () => {
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
     jest.clearAllMocks();
   });
 
@@ -45,5 +44,39 @@ describe('Search Use Case', () => {
     await expect(useCase.execute({ searchTerm: 'Elden ring' })).rejects.toThrow(
       new InternalServerErrorException(errorMock.message),
     );
+  });
+
+  it('Should return search result from cache', async () => {
+    const useCase = module.get<Search>(Search);
+    const hashDB = module.get<HashDB>(HashDB);
+    const hashDbSpy = jest.spyOn(hashDB, 'find');
+    hashDbSpy.mockReturnValue(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
+
+    const searchTerm = 'Elden ring';
+    const response = await useCase.execute({ searchTerm });
+
+    expect(response).toEqual(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
+    expect(hashDbSpy).toHaveBeenCalledWith(searchTerm);
+    expect(hashDbSpy).toHaveReturnedWith(
+      SearchDTO.toDTO(DuckDuckGoSearchResponseMock),
+    );
+  });
+
+  it('Should insert search result to cache', async () => {
+    const useCase = module.get<Search>(Search);
+    const hashDB = module.get<HashDB>(HashDB);
+    jest.spyOn(hashDB, 'find').mockReturnValue(null);
+    const hashDbSpy = jest.spyOn(hashDB, 'insert');
+    hashDbSpy.mockReturnValue(true);
+
+    const searchTerm = 'Elden ring';
+    const response = await useCase.execute({ searchTerm });
+
+    expect(response).toEqual(SearchDTO.toDTO(DuckDuckGoSearchResponseMock));
+    expect(hashDbSpy).toHaveBeenCalledWith(
+      searchTerm,
+      SearchDTO.toDTO(DuckDuckGoSearchResponseMock),
+    );
+    expect(hashDbSpy).toHaveReturnedWith(true);
   });
 });
