@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SnackbarProvider } from "notistack";
+import { Provider } from "react-redux";
+import { store } from "~/state/store";
 
 export default function QueryProviders({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [queryClient] = useState(() => new QueryClient());
-
   return (
     <SnackbarProvider
       anchorOrigin={{
@@ -19,7 +17,7 @@ export default function QueryProviders({
       }}
       preventDuplicate
     >
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <Provider store={store}>{children}</Provider>
     </SnackbarProvider>
   );
 }
