@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import DisplayRelatedTopics from "~/components/display-related-topics";
 import DisplaySearchResult from "~/components/display-search-result";
 import { useSearch } from "~/hooks";
@@ -9,30 +9,42 @@ import { useSearch } from "~/hooks";
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const searchTerm = useMemo(() => searchParams.get("q") || "", [searchParams]);
-  const { result, isLoading } = useSearch(searchTerm);
+  const { data, isError, isPending, mutate: searchMutate } = useSearch();
 
-  if (isLoading) {
+  useEffect(() => {
+    if (searchTerm) {
+      searchMutate({ searchTerm });
+    }
+  }, [searchTerm, searchMutate]);
+
+  if (isError) {
     return (
-      <main>
-        <div className="flex justify-center items-center h-screen">
-          <p>Loading...</p>
-        </div>
-      </main>
+      <div className="flex justify-center items-center h-screen text-destructive">
+        <p>Error</p>
+      </div>
+    );
+  }
+
+  if (isPending || !data) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading...</p>
+      </div>
     );
   }
 
   return (
-    <main className="flex flex-col justify-evenly h-screen p-4">
+    <div className="flex flex-col justify-evenly h-screen p-4">
       <div className="space-y-2">
         <h1 className="font-bold text-lg">{searchTerm}</h1>
-        <p className="text-sm sm:text-xs">{result.abstract}</p>
+        <p className="text-sm sm:text-xs">{data.abstract}</p>
       </div>
       <div className="mt-4">
-        <DisplaySearchResult searchResult={result.results} />
+        <DisplaySearchResult searchResult={data.results} />
       </div>
       <div className="mt-4">
-        <DisplayRelatedTopics relatedTopics={result.relatedTopics} />
+        <DisplayRelatedTopics relatedTopics={data.relatedTopics} />
       </div>
-    </main>
+    </div>
   );
 }

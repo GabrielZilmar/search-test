@@ -1,24 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
-import { search, SearchError, SearchResult } from "~/data/search";
-import { SearchResponse } from "~/types/search";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
+import {
+  search,
+  SearchError,
+  SearchPayload,
+  SearchResult,
+} from "~/data/search";
 
-const initialData: SearchResponse = {
-  abstract: "",
-  results: [],
-  relatedTopics: [],
-};
-
-export const useSearch = (searchTerm: string) => {
-  const { isPending, isLoading, error, data } = useQuery<
+export const useSearch = () => {
+  const { mutate, isPending, isSuccess, isError, error, data } = useMutation<
     SearchResult,
-    SearchError
+    SearchError,
+    SearchPayload
   >({
-    queryKey: ["search", searchTerm],
-    queryFn: () => search(searchTerm),
-    enabled: !!searchTerm,
+    mutationFn: (payload) => search(payload),
+    onError: (error) => {
+      enqueueSnackbar(error.message, { variant: "error" });
+    },
   });
 
-  return { isPending, isLoading, error, result: data?.data || initialData };
+  return {
+    mutate,
+    isPending,
+    isSuccess,
+    isError,
+    error,
+    data: data?.data || null,
+  };
 };
 
 export default useSearch;
