@@ -12,7 +12,7 @@ const DisplayRelatedTopics: React.FC<DisplayRelatedTopicsProps> = ({
   return (
     <div className="space-y-2">
       <h1 className="font-bold text-lg">Related Topics</h1>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {relatedTopics.map((topic) => (
           <Card key={topic.url} className="flex-1">
             <Link href={topic.url} target="_blank">
