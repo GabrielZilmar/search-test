@@ -3,13 +3,15 @@
 import { Pagination } from "@cialdnb/ui";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { useSearchHistory } from "~/hooks";
+import { useFetchSearchHistoryQuery } from "~/data/search-history";
+import { useAppSelector } from "~/hooks";
 
 const INITIAL_PAGE = 1;
 
 const SearchHistory = () => {
   const [page, setPage] = useState<number>(INITIAL_PAGE);
-  const { result, isLoading } = useSearchHistory({ pageParam: page });
+  const { isLoading } = useFetchSearchHistoryQuery({ pageParam: page });
+  const result = useAppSelector((state) => state.searchHistorySlice);
 
   const nextPage = useCallback(() => {
     setPage(page + 1);
