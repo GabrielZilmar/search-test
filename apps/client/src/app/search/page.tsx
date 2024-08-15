@@ -12,13 +12,29 @@ const SearchPage = () => {
   const searchParams = useSearchParams();
   const searchTerm = useMemo(() => searchParams.get("q") || "", [searchParams]);
   const data = useAppSelector((state) => state.searchSlice);
-  const [searchMutate] = useSearchMutation();
+  const [searchMutate, { isError, isLoading }] = useSearchMutation();
 
   useEffect(() => {
     if (searchTerm) {
       searchMutate({ searchTerm });
     }
   }, [searchTerm, searchMutate]);
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-screen text-destructive">
+        <p>Error</p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-evenly h-screen p-4">
