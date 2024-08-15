@@ -1,11 +1,13 @@
 "use client";
 
-import { useSidebarStore } from "~/store/sidebar";
 import { Maximize2, Minimize2 } from "lucide-react";
 import SearchHistory from "~/components/search-history";
+import { useAppDispatch, useAppSelector } from "~/hooks";
+import { sidebarSlice } from "~/state/sidebar";
 
 const Sidebar: React.FC = () => {
-  const { isOpen, toggleSidebar } = useSidebarStore();
+  const { isOpen } = useAppSelector((state) => state.sidebarSlice);
+  const dispatch = useAppDispatch();
 
   return (
     <div>
@@ -14,7 +16,7 @@ const Sidebar: React.FC = () => {
           <div className="p-4 flex justify-end">
             <Minimize2
               className="cursor-pointer w-4 md:w-6"
-              onClick={toggleSidebar}
+              onClick={() => dispatch(sidebarSlice.actions.toggleSidebar())}
             />
           </div>
           <div className="p-4">
@@ -25,7 +27,7 @@ const Sidebar: React.FC = () => {
         <div className="absolute p-4">
           <Maximize2
             className="cursor-pointer w-4 md:w-6"
-            onClick={toggleSidebar}
+            onClick={() => dispatch(sidebarSlice.actions.toggleSidebar())}
           />
         </div>
       )}
