@@ -1,81 +1,63 @@
-# Turborepo starter
+# Cialdnb App
 
-This is an official starter Turborepo.
+Welcome to the Cialdnb monorepo. This application is designed to use the DuckDuckGo API and save your search history.
 
-## Using this example
+## Technologies Used 💻
 
-Run the following command:
+### General
 
-```sh
-npx create-turbo@latest
+- **turbo-repo**: A high-performance build system for JavaScript and TypeScript monorepos, optimizing the build and development workflow.
+
+### Server
+
+- **Nest.js**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+
+### Client
+
+- **Next.js**: A React framework for building fast, server-rendered web applications with minimal configuration.
+- **react-query**: A library for managing server state in React applications, providing tools for fetching, caching, and updating data.
+- **zustand**: A small, fast state-management library for React, offering a simple and flexible API for managing global state.
+
+### UI
+
+- **Tailwind**: A utility-first CSS framework for rapidly building custom user interfaces with pre-defined, low-level utility classes.
+- **Shadcn**: A collection of accessible and customizable UI components for building modern web applications with React and Tailwind CSS.
+
+## Installation 📦
+
+1. **Clone the repository:**
+
+```bash
+git clone git@github.com:GabrielZilmar/cialdnb.git
+  or
+git clone https://github.com/GabrielZilmar/cialdnb.git
 ```
 
-## What's inside?
+**Install dependencies:**
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@cialdnb/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@cialdnb/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@cialdnb/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+cd cialdnb
+npm install
 ```
 
-### Develop
+**Set up environment variables for server: 🤫**
 
-To develop all apps and packages, run the following command:
+Create a .env file in the root of the server dir **(apps/server)** and define the following variables:
 
-```
-cd my-turborepo
-pnpm dev
-```
+```config
+PORT=your_server_port
 
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+DUCK_DUCK_GO_API_URL=duck_duck_go_api_url
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+**Set up environment variables for client: 🤫**
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Check the .env file in the root of the client dir **(apps/client)** and verify if the variable `NEXT_PUBLIC_BASE_API_URL` is correct to your server.
 
+## Usage 🔄
+
+In the root dir, run:
+
+```bash
+npm run dev
 ```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
