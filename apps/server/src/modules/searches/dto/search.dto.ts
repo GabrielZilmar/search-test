@@ -18,6 +18,9 @@ class SearchResults {
 
 export class SearchDTO {
   @IsString()
+  name: string;
+
+  @IsString()
   @IsNullable()
   abstract: string | null;
 
@@ -32,6 +35,7 @@ export class SearchDTO {
   relatedTopics: SearchResults[];
 
   constructor(data: SearchDTO) {
+    this.name = data.name;
     this.abstract = data.abstract;
     this.results = data.results;
     this.relatedTopics = data.relatedTopics;
@@ -56,6 +60,7 @@ export class SearchDTO {
 
   public static toDTO(data: DuckDuckGoSearchResponse) {
     const payload = {
+      name: data.Heading,
       abstract: data.Abstract,
       results: this.toSearchResults(data.Results),
       relatedTopics: this.toSearchResults(data.RelatedTopics),

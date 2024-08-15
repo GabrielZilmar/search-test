@@ -4,6 +4,7 @@ export interface SearchResultItem {
 }
 
 export interface SearchResponse {
+  name: string;
   abstract: string;
   results: SearchResultItem[];
   relatedTopics: SearchResultItem[];
