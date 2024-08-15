@@ -65,7 +65,7 @@ export class SearchDTO {
   }
 }
 
-export class SearchQueriesDTO {
+export class SearchBodyDTO {
   @IsString()
   searchTerm: string;
 }
