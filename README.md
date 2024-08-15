@@ -15,8 +15,7 @@ Welcome to the Cialdnb monorepo. This application is designed to use the DuckDuc
 ### Client
 
 - **Next.js**: A React framework for building fast, server-rendered web applications with minimal configuration.
-- **react-query**: A library for managing server state in React applications, providing tools for fetching, caching, and updating data.
-- **zustand**: A small, fast state-management library for React, offering a simple and flexible API for managing global state.
+- **redux-toolkit**: A library that simplifies state management in React applications by providing a set of tools and best practices to reduce boilerplate code and make Redux easier to use.
 
 ### UI
 
