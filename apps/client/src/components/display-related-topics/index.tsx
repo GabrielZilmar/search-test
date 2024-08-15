@@ -10,7 +10,7 @@ const DisplayRelatedTopics: React.FC<DisplayRelatedTopicsProps> = ({
   relatedTopics,
 }) => {
   return (
-    <div>
+    <div className="space-y-2">
       <h1 className="font-bold text-lg">Related Topics</h1>
       <div className="flex flex-row space-x-4 overflow-x-auto h-full">
         {relatedTopics.map((topic) => (
