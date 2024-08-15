@@ -4,6 +4,13 @@ import fs from 'fs';
 import { SearchDTO } from '~/modules/searches/dto/search.dto';
 import { DB } from '~/services/db/contract';
 
+type ListResult = {
+  items: SearchDTO[];
+  pages: number;
+};
+
+const PAGE_SIZE = 10;
+
 @Injectable()
 export class HashDB implements DB<SearchDTO> {
   private readonly filePath: string;
@@ -31,8 +38,13 @@ export class HashDB implements DB<SearchDTO> {
     return true;
   }
 
-  list(): SearchDTO[] {
-    return Object.values(this.store);
+  list(page: number): ListResult {
+    const items = Object.values(this.store);
+    const start = (page - 1) * PAGE_SIZE;
+    return {
+      items: items.slice(start, start + PAGE_SIZE),
+      pages: Math.ceil(items.length / PAGE_SIZE),
+    };
   }
 
   clear(): void {
