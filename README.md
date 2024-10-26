@@ -1,6 +1,6 @@
-# Cialdnb App
+# Search Test
 
-Welcome to the Cialdnb monorepo. This application is designed to use the DuckDuckGo API and save your search history.
+Welcome to the SearchTest monorepo. This application is designed to use the DuckDuckGo API and save your search history.
 
 ## Technologies Used 💻
 
